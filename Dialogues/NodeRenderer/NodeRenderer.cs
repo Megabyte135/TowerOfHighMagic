@@ -4,12 +4,5 @@ using UnityEngine;
 
 public abstract class NodeRenderer
 {
-    Canvas _canvas;
-
-    public NodeRenderer(Canvas canvas)
-    {
-        _canvas = canvas;
-    }
-
-    public abstract void Render();
+    public abstract void Render(DialogueRenderer renderer);
 }

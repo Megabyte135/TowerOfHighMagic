@@ -10,6 +10,7 @@ public class TabGroup : MonoBehaviour
     public Color TabHover;
     public TabButton SelectedTab;
     public List<GameObject> ObjectsToSwap;
+
     public void Subscribe(TabButton button)
     {
         if (TabButtons == null)

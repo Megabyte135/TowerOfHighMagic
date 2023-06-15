@@ -9,20 +9,20 @@ using UnityEngine;
 
 public class SettingsManager : MonoBehaviour
 {
+    public static SettingsManager instance = null;
     public Settings Settings { get; private set; }
     public JObject Localization { get; private set; }
     [SerializeField] bool ForceRecreateSettings = false;
     const string SettingsFileName = "Settings.json";
     const string LocalizationFileName = "SettingsLocalization.json";
-    static SettingsManager _instance = null;
 
     void Awake()
     {
-        if (_instance == null)
+        if (instance == null)
         {
-            _instance = this;
+            instance = this;
         }
-        else if (_instance == this)
+        else if (instance == this)
         {
             Destroy(gameObject);
         }

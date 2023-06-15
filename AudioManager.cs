@@ -7,57 +7,51 @@ using UnityEngine;
 [RequireComponent(typeof(SettingsManager))]
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager instance = null;
     [HideInInspector]public float GeneralVolume;
     [HideInInspector]public float MusicVolume;
     [HideInInspector]public float EffectVolume;
     public AudioSource Music;
-    public AudioSource Effect;
-    public SettingsManager SettingsManager;
-    static AudioManager _instance = null;
+    SettingsManager _settingsManager;
 
     void Awake()
     {
-        if (_instance == null)
+        if (instance == null)
         {
-            _instance = this;
+            instance = this;
         }
-        else if (_instance == this)
+        else if (instance == this)
         {
             Destroy(gameObject);
         }
-        SettingsManager = GetComponent<SettingsManager>();
-        GeneralVolume = SettingsManager.Settings.Audio.GeneralVolume;
-        MusicVolume = SettingsManager.Settings.Audio.MusicVolume;
-        EffectVolume = SettingsManager.Settings.Audio.EffectVolume;
+        _settingsManager = SettingsManager.instance;
+        GeneralVolume = _settingsManager.Settings.Audio.GeneralVolume;
+        MusicVolume = _settingsManager.Settings.Audio.MusicVolume;
+        EffectVolume = _settingsManager.Settings.Audio.EffectVolume;
         if (Music != null)
         {
-            PlayMusic();
+            PlayMusic(Music);
         }
     }
 
     void Update()
     {
-        GeneralVolume = SettingsManager.Settings.Audio.GeneralVolume;
-        MusicVolume = SettingsManager.Settings.Audio.MusicVolume;
-        EffectVolume = SettingsManager.Settings.Audio.EffectVolume;
-        if (Music != null)
-        {
-            Music.volume = GeneralVolume * MusicVolume;
-        }
-        if (Effect != null)
-        {
-            Effect.volume = MusicVolume * EffectVolume;
-        }
+        GeneralVolume = _settingsManager.Settings.Audio.GeneralVolume;
+        MusicVolume = _settingsManager.Settings.Audio.MusicVolume;
+        EffectVolume = _settingsManager.Settings.Audio.EffectVolume;
     }
 
-    public void PlayMusic()
+    public void PlayMusic(AudioSource music)
     {
-        Play(Music);
+        music.volume = GeneralVolume*MusicVolume;
+        Play(music);
     }
 
-    public void PlayEffect()
+    public void PlayEffect(AudioSource effect)
     {
-        Play(Effect);
+        Debug.Log("звук прикольный");
+        effect.volume = GeneralVolume * EffectVolume;
+        Play(effect);
     }
 
     void Play(AudioSource audio)

@@ -7,9 +7,6 @@ public abstract class BaseDialogueNode : Node
 {
     [Input] public Node Input;
     [Output] public Node Output;
-    public NodeRenderer Renderer;
 
-    public abstract BaseDialogueNode NextNode();
-
-    public override 
+    public abstract void RenderAccordingTo(DialogueRenderer renderer);
 }

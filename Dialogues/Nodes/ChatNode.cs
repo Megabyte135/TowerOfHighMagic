@@ -4,17 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using XNode;
 
-public class EventNode : BaseDialogueNode
+public class ChatNode : BaseDialogueNode
 {
-    public UnityEvent Events;
-
-    public void Invoke()
-    {
-        Events.Invoke();
-    }
+    [TextArea] public string Text;
 
     public override void RenderAccordingTo(DialogueRenderer renderer)
     {
-        
+        ChatNodeRenderer chatNodeRenderer = new ChatNodeRenderer(this);
+        chatNodeRenderer.Render(renderer);
     }
 }

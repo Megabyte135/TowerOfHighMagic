@@ -1,34 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using UnityEngine;
 using XNode;
 
 public class DialogueParser
 {
-    BaseDialogueNode _currentNode;
+    Node _currentNode;
     DialogueNodeGraph _dialogueGraph;
 
     public DialogueParser(DialogueNodeGraph graph)
     {
         _dialogueGraph = graph;
+        _currentNode = _dialogueGraph.nodes.FirstOrDefault(u => u.GetType() == typeof(StartNode));
     }
 
-    public BaseDialogueNode GetCurrentNode()
+    public BaseDialogueNode? GetNextNode(string outputPortName = "Output")
     {
-        return _currentNode;
-    }
-
-    public BaseDialogueNode GetNextNode()
-    {
-        if (_currentNode == null)
+        var connection = _currentNode.GetOutputPort(outputPortName).Connection;
+        if (connection == null)
         {
-            _currentNode = _dialogueGraph.nodes.Find(x => x.Inputs.All(u => !u.IsConnected)) as BaseDialogueNode;
-            return _currentNode;
+            return null;
         }
-        else
-        {
-            _currentNode = _currentNode.Output as BaseDialogueNode;
-        }
+        _currentNode = connection.node as BaseDialogueNode;
+        return _currentNode as BaseDialogueNode;
     }
 }

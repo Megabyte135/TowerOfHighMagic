@@ -2,18 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Speaker : MonoBehaviour
+public class Speaker : MonoBehaviour, IInteractable
 {
     public DialogueNodeGraph DialogueGraph;
-    DialogueParser DialogueParser;
-    DialogueRenderer DialogueRenderer;
-    void Start()
-    {
-    }
+    public DialogueRenderer DialogueRenderer;
 
-    // Update is called once per frame
-    void Update()
+    public void Interact()
     {
-        
+        DialogueRenderer.StartRendering(DialogueGraph);
     }
 }
